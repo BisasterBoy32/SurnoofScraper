@@ -1,0 +1,1 @@
+web: gunicorn webScaper.wsgi --log-file -

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title> Surnoof WebApp </title>
+
+    <style>
+        body{
+            height: 100%;
+            width : 100%;
+        }
+        html {
+            height: 100%;
+            width : 100%;    
+        }
+        .form-section{
+            width: 80%;
+            margin: auto;
+            margin-top: 2rem;
+            border: 2px solid #ccc;
+            padding: 3rem;
+            border-radius: 5px;
+            box-shadow: 2px 2px 2px #ccc;
+        }
+        .logs-section {
+            width: 80%;
+            margin: auto;
+            margin-top: 2rem;
+            border: 2px solid #ccc;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 2px 2px 2px #ccc;   
+            max-height: calc(100vh - 50px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column-reverse;
+
+        }
+        legend {
+            text-align: center;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            border-bottom : 1px solid #ccc;
+        }
+        li, ul {
+            list-style-type: none;
+            margin-bottom: 0px;
+            padding : 0px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="form-section" >
+            <form v-on:submit="onFormSubmit" id="main-form" enctype="multipart/form-data" action="/process/" method="POST">
+                {% csrf_token %}
+                <legend> Upload File  to Scrape Data </legend>
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" id="validatedCustomFile" name="file" required>
+                    <label class="custom-file-label" for="validatedCustomFile">Lat and Long File...</label>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                </div>
+    
+                <div class="mb-3">
+                    <select name="type" class="custom-select" required>
+                    <option value="">Choose a type ...</option>
+                    <option value="buy">buy</option>
+                    <option value="lease">lease</option>
+                    <option value="loan">loan</option>
+                    </select>
+                    <div class="invalid-feedback">Example invalid custom select feedback</div>
+                </div>
+    
+                <div class="form-group">
+                <label for="exampleInputEmail1">Bill amount </label>
+                <input type="number" name="bill" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">Bill amout should be between 100 and 850</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="logs-section" style="display:none">
+            <ul>
+                <li v-for="message in messages" :class="'alert alert-'+message.type"> [[ message.message ]] </li>
+            </ul>
+        </div>
+        <a id="downloadAnchorElem" style="display:none"></a>
+    </div>
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="{% static 'core/index.js' %}"></script>
+</body>
+</html>
