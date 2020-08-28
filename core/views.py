@@ -35,8 +35,13 @@ def process_data(request):
             except Exception as e:
                 print(e)
                 print("This URL doesn't conain any data")
-
-        pusher_client.trigger('webScraper', 'scrape-finished', {'message': "before running celery ^^"})
+        result = {
+            "data" :  "before running celery ^^",
+            "message" : "before running celery ^^",
+            "type" : "success"
+        }
+        data = json.dumps(result)
+        pusher_client.trigger('webScraper', 'scrape-finished', {'message': result })
         item = get_data.delay(urls, end ,bill,d_type )
         return JsonResponse({
             "data": data

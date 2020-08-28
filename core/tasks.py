@@ -10,8 +10,13 @@ import json
 
 @app.task()
 def get_data(urls ,end, bill, d_type):
-    print("working on background .....")
-    pusher_client.trigger('webScraper', 'scrape-finished', {'message': "it's working :)"})
+    result = {
+        "data" :  "it's working :)",
+        "message" : "it's working :)",
+        "type" : "success"
+    }
+    data = json.dumps(result)
+    pusher_client.trigger('webScraper', 'scrape-finished', {'message': result })
     i = 1
     data = []
     for index in range(0 , end):
