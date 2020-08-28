@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import time
 import xlsxwriter
 from webScraper.settings import pusher_client
+import json 
 
 from .tasks import get_data 
 
