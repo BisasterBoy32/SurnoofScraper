@@ -16,6 +16,7 @@ function downloadResult(storageObj) {
 
 var channel = pusher.subscribe('webScraper');
 channel.bind('url-scraped', function(data) {
+    console.log("data is : ", data)
     received_data = JSON.parse(data.message)
     console.log(received_data)
     app.messages.push(received_data);
@@ -25,6 +26,7 @@ channel.bind('url-scraped', function(data) {
 // element.scrollTop = element.scrollHeight;
 
 channel.bind('scrape-finished', function(data) {
+    console.log("data is : ", data)
     received_data = JSON.parse(data.message)
     console.log(received_data)
     app.messages.push(received_data);
