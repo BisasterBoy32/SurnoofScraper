@@ -10,6 +10,7 @@ import json
 
 @app.task()
 def get_data(urls ,end, bill, d_type):
+    print("working on background .....")
     i = 1
     data = []
     for index in range(0 , end):
