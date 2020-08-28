@@ -119,8 +119,9 @@ def scrape_data_9(soup ,url ,bill):
 #         return False
 
 def scrape_data(url, bill, d_type):
-    binary = FirefoxBinary('/app/vendor/firefox/firefox')
-    driver = webdriver.Firefox(firefox_binary=binary)
+    # binary = FirefoxBinary('/app/vendor/firefox/firefox')
+    # driver = webdriver.Firefox(firefox_binary=binary)
+    driver = webdriver.Firefox()
     try:
         driver.get(url)
         # r = session.get(url)
