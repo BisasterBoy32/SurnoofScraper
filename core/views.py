@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 #from selenium import webdriver
 import time
 import xlsxwriter
-
+from webScraper.settings import pusher_client
 
 from .tasks import get_data 
 
@@ -36,6 +36,7 @@ def process_data(request):
                 print(e)
                 print("This URL doesn't conain any data")
 
+        pusher_client.trigger('webScraper', 'scrape-finished', {'message': "before running celery ^^"})
         item = get_data.delay(urls, end ,bill,d_type )
         return JsonResponse({
             "data": data
