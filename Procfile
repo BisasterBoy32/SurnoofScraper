@@ -1,2 +1,2 @@
 web: gunicorn webScraper.wsgi --log-file -
-worker: celery worker -A core --loglevel=debug
+worker: celery worker --app=tasks.app
