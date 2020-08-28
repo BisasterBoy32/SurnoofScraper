@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 import pusher
-import urlparse
+from urllib.parse as urlparse
 import redis 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
