@@ -121,7 +121,14 @@ def scrape_data_9(soup ,url ,bill):
 def scrape_data(url, bill, d_type):
     # binary = FirefoxBinary('/app/vendor/firefox/firefox')
     # driver = webdriver.Firefox(firefox_binary=binary)
-    driver = webdriver.Firefox()
+    # driver = webdriver.Firefox()
+    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.binary_location = GOOGLE_CHROME_PATH
+    driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
     try:
         driver.get(url)
         # r = session.get(url)
