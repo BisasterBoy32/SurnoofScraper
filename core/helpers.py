@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from webScraper.settings import pusher_client
 import json
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 def check_if_bill_match(html_body ,bill):
     bill = '$' + bill 
@@ -118,7 +119,8 @@ def scrape_data_9(soup ,url ,bill):
 #         return False
 
 def scrape_data(url, bill, d_type):
-    driver = webdriver.Firefox()
+    binary = FirefoxBinary('/usr/lib/firefox/firefox')
+    driver = webdriver.Firefox(firefox_binary=binary)
     try:
         driver.get(url)
         # r = session.get(url)
