@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 import pusher
+import urlparse
+import redis 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -27,7 +29,7 @@ SECRET_KEY = 's0zycn2ovl$o&nbnpk#qqmc89dvuy(+ul_^e5sun*)-im&(b_&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["surnoofapp.herokuapp.com"]
+ALLOWED_HOSTS = ["surnoofapp.herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
@@ -124,12 +126,36 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # REDIS related settings 
-REDIS_HOST = 'localhost'
-REDIS_PORT = '6379'
-BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-WS4REDIS_EXPIRE = 0
+# in development
+# REDIS_HOST = 'localhost'
+# REDIS_PORT = '6379'
+# BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# WS4REDIS_EXPIRE = 0
+
+
+# redis related settings
+# in Production with heroku
+r = redis.from_url(os.environ.get("REDIS_URL"))
+BROKER_URL = redis.from_url(os.environ.get("REDIS_URL"))
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Canada/Eastern'
+
+redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+CACHES = {
+"default": {
+"BACKEND": "redis_cache.RedisCache",
+"LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+"OPTIONS": {
+"PASSWORD": redis_url.password,
+"DB": 0,
+}
+}
+}
 
 # Pusher instance
 
