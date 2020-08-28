@@ -128,8 +128,8 @@ def scrape_data(url, bill, d_type):
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.binary_location = GOOGLE_CHROME_PATH
-    # execution_path=CHROMEDRIVER_PATH,
-    driver = webdriver.Chrome(chrome_options=chrome_options)
+    # execution_path=CHROMEDRIVER_PATH,chrome_options=chrome_options
+    driver = webdriver.Chrome()
     try:
         driver.get(url)
         # r = session.get(url)
