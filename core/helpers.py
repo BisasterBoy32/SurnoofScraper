@@ -10,9 +10,11 @@ def check_if_bill_match(html_body ,bill):
     real_bill = html_body.find_all("md-select-value", {"id" : "select_value_label_1"})[0].span.text.strip()
     return bill == real_bill
 
-def scrape_data_9(soup ,url ,bill):
+def scrape_data_9(soup ,url ,bill, lat , lon):
         entry = {
-            "url" : None,
+            "url" : url,
+            "lat" : lat,
+            "lon" : lon,
             "UPFRONT COST AFTER INCENTIVES" :None ,
             "20-YEAR BENEFITS" : None,
             "TOTAL 20-YEAR SAVINGS" : None,
@@ -24,12 +26,10 @@ def scrape_data_9(soup ,url ,bill):
             "Total 20-year cost with solar":None ,
             "Total 20-year cost without solar": None,
             "Total 20-year savings" : None,
-            "Bill" : None,
+            "Bill" : bill,
             "Size (Kw)" : None,
             "Size (ft^2)": None
         }
-        entry["url"] = url
-        entry["Bill"] = bill 
 
         try:
             kw = soup.find_all("div", {"class" : "recommended-kw"})
@@ -98,60 +98,17 @@ def scrape_data_9(soup ,url ,bill):
         return entry
         print("this site has been scraped succefully : ", url)
 
-# def get_data(lat, lon, bill, d_type):
-#     try:
-#         f = d_type
-#         url = f"https://www.google.com/get/sunroof/building/{lat}/{lon}/#?f={f}&b={bill}"
-#         driver.get(url)
-#         # r = session.get(url)
-#         time.sleep(5)
-#         htmlSource = driver.page_source
-#         # htmlSource = r.html.render()
-#         soup = BeautifulSoup(htmlSource, 'html.parser')
-#         size = soup.findAll("div", {"class": "show-more-content"})[0].find_all("tr")
-
-#         if len(size) and check_if_bill_match(soup, bill):
-#             return scrape_data_9(soup, url ,bill)
-
-#     except Exception as e:
-#         print(e)
-#         print("This URL doesn't conain any data2 : ",url )
-#         return False
-
-def scrape_data(url, bill, d_type):
-    # binary = FirefoxBinary('/app/vendor/firefox/firefox')
-    # driver = webdriver.Firefox(firefox_binary=binary)
-    # driver = webdriver.Firefox()
-    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
-    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.binary_location = GOOGLE_CHROME_PATH
-    # execution_path=CHROMEDRIVER_PATH,chrome_options=chrome_options
+def scrape_data(url, bill, d_type, lat , lon):
     driver = webdriver.Chrome()
     try:
         driver.get(url)
-        # r = session.get(url)
-        time.sleep(10)
+        time.sleep(5)
         htmlSource = driver.page_source
-        # htmlSource = r.html.render()
-        # htmlSource = requests.get(url)
-        # htmlSource = htmlSource.text if htmlSource.status_code == 200 else None
         soup = BeautifulSoup(htmlSource, 'html.parser')
         size = soup.findAll("div", {"class": "show-more-content"})[0].find_all("tr")
 
         if len(size) and check_if_bill_match(soup, bill):
-            result = scrape_data_9(soup, url ,bill)
-            print("successssssssss : yessssssssssssssssssssssssssssssssss")
-            print("successssssssss : yessssssssssssssssssssssssssssssssss")
-            print("successssssssss : yessssssssssssssssssssssssssssssssss")
-            print("successssssssss : yessssssssssssssssssssssssssssssssss")
-            print("successssssssss : yessssssssssssssssssssssssssssssssss")
-            print("successssssssss : yessssssssssssssssssssssssssssssssss")
-            print(result)
-            # push data to the frontend
-            # message = json.dump(result)
+            result = scrape_data_9(soup, url ,bill, lat , lon)
             mes = { 
                 "type" : "success",
                 "message" : "This URL "+ url + " has been scrapped succefully",

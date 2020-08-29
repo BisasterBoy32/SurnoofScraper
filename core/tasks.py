@@ -10,19 +10,14 @@ import json
 
 @app.task()
 def get_data(urls ,end, bill, d_type):
-    print("heellow world hhh ")
-    result = {
-        "data" :  "it's working :)",
-        "message" : "it's working :)",
-        "type" : "success"
-    }
-    data = json.dumps(result)
-    pusher_client.trigger('webScraper', 'scrape-finished', {'message': result })
     i = 1
     data = []
     for index in range(0 , end):
         try:
-            item = scrape_data(urls[index], bill, d_type)
+            url = urls[index]["url"]
+            lat = urls[index]["lat"]
+            lon = urls[index]["lon"]
+            item = scrape_data(url, bill, d_type ,lat , lon)
             if item:
                 data.append(item)
                 i += 1
@@ -33,7 +28,7 @@ def get_data(urls ,end, bill, d_type):
     
     result = {
         "data" : data,
-        "message" : "success all pages has been scraped succefully",
+        "message" : "success the pages has been scraped succefully",
         "type" : "success"
     }
     data = json.dumps(result)

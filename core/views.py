@@ -30,19 +30,16 @@ def process_data(request):
                 lat = df1.iloc[index]["lat"]
                 lon = df1.iloc[index]["long"]
                 f = d_type
-                url = f"https://www.google.com/get/sunroof/building/{lat}/{lon}/#?f={f}&b={bill}"
+                url = {
+                    "url" : f"https://www.google.com/get/sunroof/building/{lat}/{lon}/#?f={f}&b={bill}",
+                    "lat" : lat,
+                    "lon": lon
+                } 
                 urls.append(url)
 
             except Exception as e:
                 print(e)
                 print("This URL doesn't conain any data")
-        # result = {
-        #     "data" :  "before running celery ^^",
-        #     "message" : "before running celery ^^",
-        #     "type" : "success"
-        # }
-        # data = json.dumps(result)
-        # pusher_client.trigger('webScraper', 'scrape-finished', {'message': result })
         item = get_data.delay(urls, end ,bill,d_type )
         return JsonResponse({
             "data": data
