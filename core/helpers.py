@@ -102,7 +102,7 @@ def scrape_data_9(soup ,url ,bill, lat , lon):
 def scrape_data(url, bill, d_type, lat , lon):
     options = webdriver.ChromeOptions()
     options.binary_location = "C:\Program Files\Google\Chrome Dev\Application\chrome.exe"
-    driver = webdriver.Chrome('chromedriver.exe', chrome_options = options)
+    driver = webdriver.Chrome('C:/Users/Public/me/work/brainmu/vk/chromedriver.exe', chrome_options = options)
     # driver = webdriver.Chrome()
     try:
         driver.get(url)
