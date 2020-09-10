@@ -127,44 +127,23 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # REDIS related settings 
 # in development
-# REDIS_HOST = 'localhost'
-# REDIS_PORT = '6379'
-# BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-# BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
-# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-# WS4REDIS_EXPIRE = 0
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+WS4REDIS_EXPIRE = 0
 
 
-# redis related settings
-# in Production with heroku
+
 # r = redis.from_url(os.environ.get("REDIS_URL"))
 # BROKER_URL = redis.from_url(os.environ.get("REDIS_URL"))
-# CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'Canada/Eastern'
-
-# redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
 # CACHES = {
-# "default": {
-# "BACKEND": "redis_cache.RedisCache",
-# "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
-# "OPTIONS": {
-# "PASSWORD": redis_url.password,
-# "DB": 0,
+#     "default": {
+#          "BACKEND": "redis_cache.RedisCache",
+#          "LOCATION": os.environ.get('REDIS_URL'),
+#     }
 # }
-# }
-# }
-
-r = redis.from_url(os.environ.get("REDIS_URL"))
-BROKER_URL = redis.from_url(os.environ.get("REDIS_URL"))
-CACHES = {
-    "default": {
-         "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": os.environ.get('REDIS_URL'),
-    }
-}
 
 # Pusher instance
 

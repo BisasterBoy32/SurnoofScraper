@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import time
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from webScraper.settings import pusher_client
 import json
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
@@ -99,7 +100,10 @@ def scrape_data_9(soup ,url ,bill, lat , lon):
         print("this site has been scraped succefully : ", url)
 
 def scrape_data(url, bill, d_type, lat , lon):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.binary_location = "C:\Program Files\Google\Chrome Dev\Application\chrome.exe"
+    driver = webdriver.Chrome('chromedriver.exe', chrome_options = options)
+    # driver = webdriver.Chrome()
     try:
         driver.get(url)
         time.sleep(5)
