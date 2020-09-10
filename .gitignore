@@ -1,2 +1,2 @@
 env
-core/chromedriver.exe
+*.exe
